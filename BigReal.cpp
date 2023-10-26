@@ -5,15 +5,10 @@
 #define ld long double
 #define each auto &
 #define endl '\n'
-#define pll pair<ll, ll>
 #define all(v) v.begin(), v.end()
-#define INF LONG_LONG_MAX
-#define Outsiders freopen("input.txt", "r", stdin), freopen("output.txt", "w", stdout);
-#define FastAsFBoy ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+
 using namespace std;
 
-int dx[] = {-1, 0, 1, 0, -1, -1, 1, 1};
-int dy[] = {0, 1, 0, -1, -1, 1, -1, 1};
 
 
 class BigReal
@@ -51,7 +46,7 @@ class BigReal
     {
         *this = s;
     }
-    BigReal(const BigReal &src) : l{src.l}, r{src.r}, sign{src.sign} 
+    BigReal(const BigReal &src) : l{src.l}, r{src.r}, sign{src.sign}
     {
     }
     BigReal operator=(const BigReal &src)
@@ -81,7 +76,7 @@ class BigReal
     {
         if (sign != rhs.sign) return !sign;
         if (rhs.l.size() != l.size()) return (l.size() > rhs.l.size()) ^ sign;
-        for (ll i{l.size() - 1}; i >= 0; i--)
+        for (ll i=l.size() - 1; i >= 0; i--)
         {
             if (l[i] != rhs.l[i]) return (l[i] > rhs.l[i]) ^ sign;
         }
@@ -114,6 +109,100 @@ class BigReal
         if (c) l.push_back(c);
         return tmp;
     }
+    bool operator==(const BigReal rhs){
+        if (sign!=rhs.sign){return false;}
+        if (l.size()!=rhs.l.size()){return false;}
+        for (int i = 0; i < rhs.l.size(); ++i) {
+            if (l[i]!=rhs.l[i]){return false;}
+        }
+        if (r.size()!=rhs.r.size()){return false;}
+        for (int i = 0; i < rhs.r.size(); ++i) {
+            if (r[i]!=rhs.r[i]){return false;}
+        }
+        return true;
+    }
+
+    bool operator!=(const BigReal rhs){
+        if (sign!=rhs.sign){return true;}
+        if (l.size()!=rhs.l.size()){return true;}
+        for (int i = 0; i < rhs.l.size(); ++i) {
+            if (l[i]!=rhs.l[i]){return true;}
+        }
+        if (r.size()!=rhs.r.size()){return true;}
+        for (int i = 0; i < rhs.r.size(); ++i) {
+            if (r[i]!=rhs.r[i]){return true;}
+        }
+        return false;
+    }
+    bool operator >=(const BigReal rhs){
+        bool flag = 1;
+        if (sign!=rhs.sign){flag=0;}
+        if (l.size()!=rhs.l.size()){flag =0;}
+        for (int i = 0; i < rhs.l.size(); ++i) {
+            if (l[i]!=rhs.l[i]){flag =0;}
+        }
+        if (r.size()!=rhs.r.size()){flag=0;}
+        for (int i = 0; i < rhs.r.size(); ++i) {
+            if (r[i]!=rhs.r[i]){flag=0;}
+        }
+        if (flag){return true;}
+        flag=1;
+
+        if (sign != rhs.sign) return !sign;
+        if (rhs.l.size() != l.size()) return (l.size() > rhs.l.size())^sign;
+        for (ll i=l.size() - 1; i >= 0; i--)
+        {
+            if (l[i] != rhs.l[i]) return (l[i] > rhs.l[i])^sign;
+        }
+        for (ll i{}; i < r.size() && rhs.r.size(); i++)
+        {
+            if (r[i] != rhs.r[i]) return (r[i] > rhs.r[i])^sign;
+        }
+        return (r.size() > rhs.r.size())^sign;
+
+    }
+
+    bool operator <(const BigReal rhs){
+        if (sign != rhs.sign) return sign;
+        if (rhs.l.size() != l.size()) return (l.size() < rhs.l.size())^sign;
+        for (ll i=l.size() - 1; i >= 0; i--)
+        {
+            if (l[i] != rhs.l[i]) return (l[i] < rhs.l[i])^sign;
+        }
+        for (ll i{}; i < r.size() && rhs.r.size(); i++)
+        {
+            if (r[i] != rhs.r[i]) return (r[i] < rhs.r[i])^sign;
+        }
+        if (r.size()==rhs.r.size()){return false;}
+        return (r.size() < rhs.r.size())^sign;
+    }
+    bool operator <=(const BigReal rhs){
+        bool flag = true;
+        if (sign!=rhs.sign){flag= false;}
+        if (l.size()!=rhs.l.size()){flag = false;}
+        for (int i = 0; i < rhs.l.size(); ++i) {
+            if (l[i]!=rhs.l[i]){flag = false;}
+        }
+        if (r.size()!=rhs.r.size()){flag= false;}
+        for (int i = 0; i < rhs.r.size(); ++i) {
+            if (r[i]!=rhs.r[i]){flag= false;}
+        }
+        if (flag){return true;}
+        flag=1;
+
+        if (sign != rhs.sign) return sign;
+
+        if (rhs.l.size() != l.size()) return (l.size() < rhs.l.size())^sign;
+        for (ll i=l.size() - 1; i >= 0; i--)
+        {
+            if (l[i] != rhs.l[i]) return (l[i] < rhs.l[i])^sign;
+        }
+        for (ll i{}; i < r.size() && rhs.r.size(); i++)
+        {
+            if (r[i] != rhs.r[i]) return (r[i] < rhs.r[i])^sign;
+        }
+        return (r.size() < rhs.r.size())^sign;
+    }
 };
 
 
@@ -134,10 +223,9 @@ istream& operator<<(istream &is, BigReal r)
 
 int main()
 {
-    FastAsFBoy
     string s, t;
     cin >> s >> t;
     BigReal r(s), rr(t);
-    cout << (r > rr ? "Yes" : "No") << endl;
+
 }
 
