@@ -144,7 +144,7 @@ class BigReal
     
     BigReal operator+=(BigReal rhs)
     {
-        int c{}, si{1}, diff;
+        int c{}, si{1};
         if (sign != rhs.sign)
         {
             sign = !sign;
@@ -155,13 +155,15 @@ class BigReal
 
         while (rhs.l.size() > l.size()) l.push_back(0);
         while (rhs.r.size() > r.size()) r.push_front(0);
-        diff = r.size() - rhs.r.size();
+        while (rhs.l.size() < l.size()) rhs.l.push_back(0);
+        while (rhs.r.size() < r.size()) rhs.r.push_front(0);
+
         for (int i{}; i < r.size() && i < rhs.r.size(); i++)
         {
-            int tmp = r[i + diff] + si * rhs.r[i] + c;
+            int tmp = r[i] + si * rhs.r[i] + c;
             if (tmp < 0) tmp += 10, c = -1;
             else c = tmp / 10, tmp %= 10;
-            r[i + diff] = tmp;
+            r[i] = tmp;
         }
         for (int i{}; i < l.size() && i < rhs.l.size(); i++)
         {
@@ -170,6 +172,7 @@ class BigReal
             else c = tmp / 10, tmp %= 10;
             l[i] = tmp;
         }
+        if (c > 0) l.push_back(c);
         removeTrailingZeros();
         return *this;
     }
