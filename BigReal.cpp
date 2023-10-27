@@ -61,8 +61,10 @@ class BigReal
     }
     BigReal operator=(string s)
     {
-        if (!s.empty() && s[0] == '-') sign = 1, s.erase(0, 1);
-        else sign = 0;
+        sign = 0;
+        if (!s.empty() && s.front() == '-') sign = 1, s.erase(0, 1);
+        else if (!s.empty() && s.front() == '+') s.erase(0, 1);
+        
         if (!isValid(s)) throw("Invalid decimal number");
         else
         {
