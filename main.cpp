@@ -1,3 +1,9 @@
+// FCAI - OOP Programming - 2023 - Assignment 1
+// Last Modification Date : October 10th 2023
+// Ahmed Yosry Saad       ID: 20221014   E-mail: ahmedyosry1014@gmail.com
+// Sherif Yousef Mahmoud  ID: 20221081   E-mail: sherifyousef209@gmail.com
+// Mohamed Hesham Mohamed ID: 20221133   E-mail: mohamedmaybe4u@gmail.com
+// Purpose: make a variable that holds an unlimited number of digits (including decimals)
 
 #include <iostream>
 #include "BigReal.cpp"
