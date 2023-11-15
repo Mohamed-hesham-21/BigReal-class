@@ -1,5 +1,7 @@
 #include "BigReal.hpp"
+// This is a personal academic project. Dear PVS-Studio, please check it.
 
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 bool BigReal::isValid(string &s) const
 {
     if (s.empty()) return false;
@@ -38,7 +40,7 @@ string BigReal::getString() const
     return s;
 }
 
-BigReal::BigReal(const BigReal &src) : l{src.l}, r{src.r}, sign{src.sign} 
+BigReal::BigReal(const BigReal &src) : l{src.l}, r{src.r}, sign{src.sign}
 {
 }
 BigReal::BigReal(string s)
@@ -59,7 +61,7 @@ BigReal BigReal::operator=(string s)
     sign = 0;
     if (!s.empty() && s.front() == '-') sign = 1, s.erase(0, 1);
     else if (!s.empty() && s.front() == '+') s.erase(0, 1);
-    
+
     if (!isValid(s)) throw("Invalid decimal number");
     else
     {
@@ -83,11 +85,11 @@ bool BigReal::operator==(const BigReal &rhs) const
 {
     if (sign != rhs.sign || l.size() != rhs.l.size() || r.size() != rhs.r.size()) return false;
 
-    for (int i = 0; i < rhs.l.size(); ++i) 
+    for (int i = 0; i < rhs.l.size(); ++i)
     {
         if (l[i] != rhs.l[i]) return false;
     }
-    for (int i = 0; i < rhs.r.size(); ++i) 
+    for (int i = 0; i < rhs.r.size(); ++i)
     {
         if (r[i] != rhs.r[i]) return false;
     }
@@ -113,7 +115,7 @@ bool BigReal::operator>(const BigReal &rhs) const
     return (r.size() > rhs.r.size()) ^ sign;
 }
 
-bool BigReal::operator<(const BigReal rhs) const
+bool BigReal::operator<(const BigReal &rhs) const
 {
     if (sign != rhs.sign) return !sign;
     if (rhs.l.size() != l.size()) return (l.size() < rhs.l.size()) ^ sign;
@@ -173,7 +175,7 @@ BigReal BigReal::operator+=(BigReal rhs)
     removeTrailingZeros();
     return *this;
 }
-BigReal BigReal::operator+(BigReal rhs)
+BigReal BigReal::operator+(BigReal &rhs)
 {
     BigReal tmp = *this;
     tmp += rhs;
@@ -193,13 +195,13 @@ BigReal BigReal::operator-(BigReal rhs)
     return tmp;
 }
 
-ostream& operator<<(ostream &os, const BigReal r)
+ostream& operator<<(ostream &os, const BigReal &r)
 {
     os << r.getString();
     return os;
 }
 
-istream& operator>>(istream &is, BigReal r)
+istream& operator>>(istream &is, BigReal &r)
 {
     string s;
     is >> s;
